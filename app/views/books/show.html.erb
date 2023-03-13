@@ -1,25 +1,28 @@
 <%= image_tag @book.image_url %>
 <%= @book.title %>
 <%= @book.author %>
+<%= link_to 'この本を評価する', new_book_review_path(@book) %>
 
-  <div class="row mt-3">
-    <div class="col-md-12 col-sm-12">
-    <%= form_with model: [@book, @review], url: book_reviews_path(book_id: @book.id), method: :post do |f| %>
-    <div class="row mt-3">
-      <div class="col-md-8 offset-md-2">
-        <%= f.text_area :impression, rows: '3', placeholder: "コメントをここに入力してください。",class: "col-md-12" %>
-      </div>
-      <div class="col-md-2 mt-4  text-center">
-        <%= f.submit "Submit", class: "submit_btn" %>
-      </div>
-    </div>
-    <% end %>
-    </div>
-  </div>
-  <% @reviews.each do |comment| %>
+  <% @reviews.each do |review| %>
   <div class="row mt-1">
     <div class="col-md-11 offset-md-1 parent">
-      <p class="fs-1 child"><%= comment.impression %></p>
+      <p class="fs-1 child"><%= review.impression %></p>
     </div>
   </div>
+  <div class="subtitle fs-4">Rate</div>
+      <div class="col-md-8 offset-md-2 mt-3 mb-5">
+        <div id="rate_<%= review.id %>"></div>
+          <script>
+            let elem = document.querySelector('#rate_<%= review.id %>');
+            let opt = {  
+              starOn: "<%= asset_path('star-on.png') %>",
+              starOff: "<%= asset_path('star-off.png') %>",
+              starHalf: "<%= asset_path('star-half.png') %>",
+              score: "<%= review.rate %>",
+              readOnly: true,
+             };
+            raty(elem,opt);
+          </script>
+      </div>
+    </div>
   <% end %>

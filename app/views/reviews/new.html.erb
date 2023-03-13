@@ -1,0 +1,35 @@
+<div class="row mt-3">
+    <div class="col-md-12 col-sm-12">
+    <%= form_with model: [@book, @review], url: book_reviews_path(book_id: @book.id), method: :post do |f| %>
+    <div class="row mt-3">
+      <div class="col-md-8 offset-md-2">
+        <%= f.text_area :impression, rows: '3', placeholder: "コメントをここに入力してください。",class: "col-md-12" %>
+      </div>
+      <div class="col-md-8 offset-md-2">
+        <div id="star">
+          <p><%= f.label :rate, 'Rate(満足度を5段階で入力)', class: "fs-1" %></p>
+            <%= f.hidden_field :rate %>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 mt-3">
+          <div id="rate_<%= @book.id %>"></div>
+            <script>
+              let raty_elem = document.querySelector('#rate_<%= @book.id %>');
+              raty_elem.innerHTML = ""
+              let option = {  
+                starOn: "<%= asset_path('star-on.png') %>",
+                starOff: "<%= asset_path('star-off.png') %>",
+                starHalf: "<%= asset_path('star-half.png') %>",
+                scoreName: 'book[rate]',
+              };
+              raty(raty_elem,option);
+            </script>
+        </div>
+      </div>
+      <div class="col-md-2 mt-4  text-center">
+        <%= f.submit "Submit", class: "submit_btn" %>
+      </div>
+    </div>
+    <% end %>
+    </div>
+  </div>
